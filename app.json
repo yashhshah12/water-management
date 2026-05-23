@@ -19,7 +19,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.yash123456789123456789.watermanagement"
     },
     "web": {
       "output": "static",
@@ -38,11 +39,21 @@
             "backgroundColor": "#000000"
           }
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "The app needs camera access to capture live image of water tanker"
+        }
+      
       ]
     ],
+    
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
     }
   }
+
+
 }
