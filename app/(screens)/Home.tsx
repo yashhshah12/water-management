@@ -11,6 +11,7 @@ interface Tanker {
   liter:number,
   vehicleNumber:string,
    createdAt?: Timestamp;
+   
 }
   
 const [tankers , setTanker] = useState<Tanker[]>([]);
@@ -33,10 +34,10 @@ useEffect(()=>{
   return (
     <View style={styles.container}>
         
-        <View style={styles.filter}>
+        {/* <View style={styles.filter}>
           <Text style={styles.titleFiler}>Filter</Text>
           
-        </View>
+        </View> */}
           <View style={styles.cardcontainer}>
       <FlatList
          data={tankers}
@@ -71,12 +72,12 @@ literText:{
 },
 
 container:{
-  paddingVertical:50,
+  paddingVertical:5,
   
 },
 cardcontainer:{
-  marginTop:18,
-  paddingTop:12,
+  marginTop:0,
+  paddingTop:0,
 }
 });
 

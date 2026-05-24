@@ -3,7 +3,7 @@ import {View , StyleSheet , Text  ,TextInput, Alert  ,TouchableOpacity ,Image} f
 import { Picker } from '@react-native-picker/picker';
 import DropDownPicker from 'react-native-dropdown-picker';  
 import { collection, addDoc } from "firebase/firestore";
-import { db } from "../../firebase/firebaseconfig"; // your config file
+import { db ,auth} from "../../firebase/firebaseconfig"; // your config file
 import * as ImagePicker from 'expo-image-picker';
 export default function Addetials() {
 const [liter , setLiter] = useState(10000);
@@ -18,12 +18,23 @@ const [items , setItems] = useState([
     { label: 'Custom...', value: 0 }
 ])
 const handleAdd = async () => {
+if (imageUri == null || vehicleNumber == "") {
+  Alert.alert("All field are required to fill");
+  return 
+}
+const user = auth.currentUser;
+if (!user) {
+  console.log("Error, you must logged in");
+  return;
+}
   try {
     await addDoc(collection(db, "tankers"), {
       image:imageUri,
       vehicleNumber:vehicleNumber,
       liter:liter,
-      createdAt: new Date()
+      createdAt: new Date(),
+      createdBy_uid: user.uid,
+  createdBy_email: user.email
     });
       setVehiclenumber("")
       setImageUri(null)
@@ -45,10 +56,7 @@ allowsEditing: true, // Lets the user crop the image before saving
       aspect: [4, 3],      // Forces a standard rectangular crop
       quality: 0.8,
   })
-  if (imageUri == null) {
-    Alert.alert("The image of the tanker is compulory to uploda");
-    return
-  }
+
   if (!result.canceled) {
     setImageUri(result.assets[0].uri)
   }

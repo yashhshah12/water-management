@@ -1,4 +1,4 @@
-import {View ,Text ,Image , StyleSheet , Pressable}  from 'react-native'
+import {View ,Text ,Image , StyleSheet , Pressable, Modal}  from 'react-native'
 import { Timestamp  } from "firebase/firestore";
 import {auth} from '../../firebase/firebaseconfig'
 import React, { useState } from 'react'
@@ -9,6 +9,8 @@ interface Tanker {
   vehicleNumber:String,
   createdAt?: Timestamp;
   user?: string;
+  createdBy_email?: string; 
+    createdBy_uid?: string;
 }
 interface TankerProps {
   tanker: Tanker
@@ -21,6 +23,7 @@ export default function Tankercard({ tanker } : TankerProps) {
 
 const user = auth.currentUser
 const handleImagePress = (image : string)=>{
+  setPreviewVisible(true);
 setPreviewURI(image);
 
 }
@@ -34,13 +37,39 @@ setPreviewURI(image);
         style={styles.tankerImage} 
       />
       </Pressable>
+      <Modal
+       visible={ispreviewVisible}
+       transparent={true}
+       animationType='fade'
+       onRequestClose={()=> setPreviewVisible(false)}
+       >
+        <View style={styles.modalBackground}>
+          <Pressable 
+            style={styles.closeButton} 
+            onPress={() => setPreviewVisible(false)}
+          >
+            <Text style={styles.closeText}>Close</Text>
+            {/* Or use your icon: <MaterialIcons name="close" size={30} color="white" /> */}
+          </Pressable>
+ 
+          {previewURI && (
+            <Image
+            source={{uri: previewURI}}
+            style={styles.fullImage}
+            resizeMode='contain'
+            />
+          )}
+     
+</View>
+      </Modal>
+      
 
       {/* --- RIGHT SIDE: The Vertical Details --- */}
       <View style={styles.detailsColumn}>
            <View style={styles.detailRow}>
           <Text style={styles.icon}>👤 </Text>
           <Text style={styles.detailText} numberOfLines={1}>
-            <Text style={styles.boldLabel}>Username:  </Text>{user?.email}
+            <Text style={styles.boldLabel}>Username:  </Text>{tanker?.createdBy_email}
           </Text>
         </View>
         
@@ -130,5 +159,27 @@ const styles = StyleSheet.create({
   errorText: {
     color: '#F44336', // Red for leak
     fontWeight: 'bold',
+  },
+  fullImage: {
+    width: '100%',
+    height: '80%',
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 50,
+    right: 20,
+    zIndex: 1, // Ensures the button stays on top of the image
+    padding: 10,
+  },
+  closeText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  modalBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.9)', // 90% dark background
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
