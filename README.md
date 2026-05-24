@@ -1,50 +1,40 @@
-# Welcome to your Expo app 👋
+# 💧 Society Water Management System
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A React Native mobile application designed to provide transparency and tracking for residential society water tanker deliveries. Built to replace manual logbooks with a secure, real-time digital ledger.
 
-## Get started
+## 🚀 The Problem & Solution
+In residential societies without municipal pipelines, tracking daily water tanker deliveries is prone to human error and lack of transparency. This application acts as a digital ledger, allowing authorized users to log tanker arrivals with photographic proof, exact timestamps, and volume metrics, visible instantly to all residents.
 
-1. Install dependencies
+## 🧠 Architectural Decisions (Why I Built It This Way)
 
+### 1. Pre-Provisioned Authentication (Invite-Only)
+Instead of building a public "Sign Up" screen, I implemented a strict **B2B / Internal Tool Architecture**. 
+* **The "Why":** A residential building has a fixed, known number of flats (e.g., 45 units). An open registration form introduces security risks (ghost accounts, unauthorized access) and requires a complex manual-approval flow.
+* **The Solution:** User accounts are pre-provisioned via the Firebase Console by the administrator. Residents are handed secure credentials, guaranteeing 100% data integrity and preventing outsiders from viewing society data.
+
+### 2. Separation of State and UI
+Utilized React Native's `<Modal>` for full-screen image previews to avoid unnecessary re-renders. The modal is lifted out of the individual list items to prevent performance degradation when scrolling through hundreds of database logs.
+
+## ✨ Key Features
+* **Real-Time Database Sync:** Powered by Firebase Firestore, ensuring all residents see new tanker entries the second they are logged.
+* **Image Capture & Storage:** Integrates Expo Camera/ImagePicker to attach visual proof of every delivery.
+* **Smart Timestamps:** Automatically converts UTC database timestamps into localized, human-readable formats.
+* **Secure Environment:** Environment variables (`.env`) strictly implemented to protect Firebase API configurations.
+
+## 🛠️ Tech Stack
+* **Frontend:** React Native, Expo, React Navigation
+* **Backend:** Firebase (Authentication & Cloud Firestore)
+* **Language:** JavaScript / TypeScript
+
+## ⚙️ Installation & Setup
+
+1. **Clone the repository:**
    ```bash
-   npm install
-   ```
+   git clone [https://github.com/yashhshah12/water-management.git](https://github.com/yashhshah12/water-management.git)
+   cd water-management
 
-2. Start the app
+Yash Shah
 
-   ```bash
-   npx expo start
-   ```
+GitHub: @yashhshah12
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+LinkedIn: https://www.linkedin.com/in/yash-shah-2b8a0a2b7/
